@@ -1,10 +1,12 @@
 "use client";
 
 import { APIProvider, AdvancedMarker, Map } from "@vis.gl/react-google-maps";
-import React from "react";
 
-const CatchMeMap = () => {
-  const position = { lat: 53.54992, lng: 10.00678 };
+type CatchMeMapProps = {
+  position: { lat: number; lng: number };
+};
+
+const CatchMeMap = ({ position }: CatchMeMapProps) => {
   const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
 
   if (!apiKey) {
@@ -13,11 +15,11 @@ const CatchMeMap = () => {
 
   return (
     <APIProvider apiKey={apiKey}>
-      <Map defaultCenter={position} defaultZoom={10} mapId="CATCHME">
+      <Map defaultCenter={position} defaultZoom={16} mapId="CATCHME">
         <AdvancedMarker position={position} />
       </Map>
     </APIProvider>
   );
 };
 
-export default Map;
+export default CatchMeMap;

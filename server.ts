@@ -1,7 +1,7 @@
 import { createServer } from "http";
 import next from "next";
 import { parse } from "url";
-import { Server } from "socket.io";
+import { initSocketIO } from "./ws/socket-io-server";
 
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
@@ -12,14 +12,7 @@ app.prepare().then(() => {
     handle(req, res, parse(req.url ?? "/", true));
   });
 
-  const io = new Server(server);
-
-  io.on("connection", (socket) => {
-    console.log("New client!", socket.id);
-    socket.on("disconnect", () => {
-      // Handle disconnect
-    });
-  });
+  initSocketIO(server);
 
   server.listen(3000, () => {
     console.log("Ready on http://localhost:3000");
